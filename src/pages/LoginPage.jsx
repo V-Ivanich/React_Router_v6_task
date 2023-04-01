@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 // Librares
 import * as Yup from 'yup'
-// import { useHistory } from "react-router-dom";
+
 import { useSelector, useDispatch } from 'react-redux'
 import { useFormik, FormikProvider } from 'formik'
 // Store
@@ -15,6 +15,7 @@ import TextField from '../components/inputs/TextInput'
 import Card from '../components/Card'
 // Icons
 import { UserIcon, KeyIcon } from '@heroicons/react/outline'
+import { useNavigate } from 'react-router-dom'
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('This field is required!'),
@@ -29,7 +30,7 @@ const initialValues = {
 const LoginPage = () => {
   const [loading, setLoading] = useState(false)
   const { message } = useSelector((state) => state.message)
-  // const history = useHistory();
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const LoginPage = () => {
     dispatch(login({ username, password }))
       .unwrap()
       .then(() => {
+        navigate('/posts', { replace: true })
         // history.push(redirect || '/')
       })
       .catch(() => {
